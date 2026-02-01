@@ -12,8 +12,8 @@ lazy val root = (project in file("."))
       "dev.langchain4j" % "langchain4j" % langchain4jVersion,
 
       // Pick ONE (or more) LLM provider
-      "dev.langchain4j" % "langchain4j-open-ai" % langchain4jVersion,   // OpenAI / Azure
-      // "dev.langchain4j" % "langchain4j-ollama"   % langchain4jVersion,   // local Ollama models
+      // "dev.langchain4j" % "langchain4j-open-ai" % langchain4jVersion,   // OpenAI / Azure
+      "dev.langchain4j" % "langchain4j-ollama"   % langchain4jVersion,   // local Ollama models
       // "dev.langchain4j" % "langchain4j-anthropic" % langchain4jVersion, // Claude
       // "dev.langchain4j" % "langchain4j-bedrock"  % langchain4jVersion, // AWS Bedrock
 

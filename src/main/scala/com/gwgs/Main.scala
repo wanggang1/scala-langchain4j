@@ -1,39 +1,30 @@
 package com.gwgs
 
-import dev.langchain4j.model.input.PromptTemplate
-import dev.langchain4j.model.openai.OpenAiChatModel
+import dev.langchain4j.model.ollama.OllamaChatModel
 import dev.langchain4j.data.message.UserMessage
-import scala.jdk.CollectionConverters._   // for .asJava
+import java.time.Duration
 
 object Main {
+
   def main(args: Array[String]): Unit = {
-    val apiKey = System.getenv("OPENAI_API_KEY")
-    val model = OpenAiChatModel.builder().apiKey(apiKey).build()
+
+    val model = OllamaChatModel.builder()
+      .baseUrl("http://localhost:11434")
+      .modelName("llama3.1")
+      .timeout(Duration.ofMinutes(5))
+      .temperature(1.2)
+      .topP(0.9)
+      .build()
 
     useModel(model)
-    // useModelWithPrompt(model)
   }
 
-  private def useModel(model: OpenAiChatModel): Unit = {
-    val response = model.generate(UserMessage.from("Write a haiku about Scala programming language."))
+  private def useModel(model: OllamaChatModel): Unit = {
+    val response = model.generate(
+      UserMessage.from(
+        "can you tell me some joke?"
+      )
+    )
     println(response.content().text())
   }
-
-  private def useModelWithPrompt(model: OpenAiChatModel): Unit = {
-    val template = PromptTemplate.from(
-      """Write a haiku about {{topic}} in the style of {{style}}."""
-    )
-
-    val prompt = template.apply(
-      Map(
-        "topic" -> "Scala programming language",
-        "style" -> "modern minimalist"
-      ).asJava
-    )
-
-    val response = model.generate(UserMessage.from(prompt.text()))
-
-    println(response.content().text())
-  }
-
 }
